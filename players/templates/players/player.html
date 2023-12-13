@@ -1,0 +1,10 @@
+{% extends 'players/base.html' %}
+
+{% block content %}
+<h1>{{player.name}}</h1>
+
+{% if player.team %}
+<p>{{player.team}}</p>
+{% endif %}
+
+{% endblock %}

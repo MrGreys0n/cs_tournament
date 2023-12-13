@@ -1,0 +1,39 @@
+{% extends 'players/base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<form method="get" action="{% url 'player_list' %}">
+  <input type="text" name="player_name" placeholder="Player Name" value="{{ player_name }}">
+  <input type="text" name="team_name" placeholder="Team Name" value="{{ team_name }}">
+  <button type="submit">Search</button>
+</form>
+
+<!-- Display search parameters -->
+{% if player_name or team_name %}
+  <p>Search results for:
+    {% if player_name %} Player Name: {{ player_name }}{% endif %}
+    {% if team_name %} Team Name: {{ team_name }}{% endif %}
+  </p>
+{% endif %}
+
+<ul class="list-articles">
+  {% for p in players %}
+  <li>
+    <h2>{{ p.name }}</h2>
+    <p>{{ p.team }}</p>
+    <div class="clear"></div>
+    <p class="link-read-post"><a href="{{ p.get_absolute_url }}">Смотреть</a></p>
+
+    {% if user.is_superuser %}
+      <form method="post" id="delete" action="{% url 'delete_player' p.id %}">
+        {% csrf_token %}
+        <button id="del" type="submit">Удалить</button>
+      </form>
+      <p class="link-read-post" ><a id="redact" href="{% url 'edit_player' p.id %}">Редактировать</a></p>
+
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% for team in teams %}
+	{% if team.pk == team_selected %}
+		<li class="selected">{{team.name}}</li>
+	{% else %}
+		<li><a href="{{ team.get_absolute_url }}">{{team.name}}</a></li>
+	{% endif %}
+{% endfor %}
